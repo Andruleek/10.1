@@ -1,0 +1,35 @@
+<!-- HTML for adding a new author -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати нового автора</title>
+</head>
+<body>
+    <h2>Додати нового автора</h2>
+    
+    <!-- Form for adding a new author -->
+    <form id="authorForm" action="file:///C:/Users/Admin/Desktop/10.1/result.html" method="post">
+        <label for="author_name">Ім'я автора:</label><br>
+        <input type="text" id="author_name" name="author_name"><br><br>
+        
+        <label for="author_bio">Біографія автора:</label><br>
+        <textarea id="author_bio" name="author_bio"></textarea><br><br>
+        
+        <!-- Field for checking user authentication -->
+        <?php if(isset($_SESSION['user_id'])) { ?>
+            <input type="submit" value="Додати автора">
+        <?php } else { ?>
+            <p>Будь ласка, <a href="/login.php">увійдіть</a> або <a href="/register.php">зареєструйтеся</a>, щоб додати нового автора.</p>
+        <?php } ?>
+    </form>
+
+    <!-- Script to submit the form -->
+    <script>
+        function submitForm() {
+            document.getElementById("authorForm").submit();
+        }
+    </script>
+</body>
+</html>

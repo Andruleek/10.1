@@ -1,0 +1,24 @@
+<!-- HTML to display the result -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результат</title>
+</head>
+<body>
+    <h2>Результат</h2>
+    
+    <script>
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const authorName = urlParams.get('author_name');
+        const authorBio = urlParams.get('author_bio');
+        
+        // Display the result on the page
+        document.write("<h3>Введені дані:</h3>");
+        document.write("<p>Ім'я автора: " + authorName + "</p>");
+        document.write("<p>Біографія автора: " + authorBio + "</p>");
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати нового автора</title>
+</head>
+<body>
+    <h2>Додати нового автора</h2>
+    
+    <!-- Форма для додавання нового автора -->
+    <form action="/add_author.php" method="post">
+        <label for="author_name">Ім'я автора:</label><br>
+        <input type="text" id="author_name" name="author_name"><br><br>
+        
+        <label for="author_bio">Біографія автора:</label><br>
+        <textarea id="author_bio" name="author_bio"></textarea><br><br>
+        
+        <!-- Поле для перевірки авторизації користувача -->
+        <?php if(isset($_SESSION['user_id'])) { ?>
+            <input type="submit" value="Додати автора">
+        <?php } else { ?>
+            <p>Будь ласка, <a href="/login.php">увійдіть</a> або <a href="/register.php">зареєструйтеся</a>, щоб додати нового автора.</p>
+        <?php } ?>
+    </form>
+    
+    <!-- Додавання кнопки "Додати" -->
+    <button onclick="submitForm()">Додати</button>
+
+    <script>
+        function submitForm() {
+            document.querySelector("form").submit();
+        }
+    </script>
+</body>
+</html>

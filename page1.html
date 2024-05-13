@@ -3,34 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сторінка 1</title>
+    <title>Створення сайту для автора</title>
 </head>
 <body>
-
-    <h2>Додати нового автора</h2>
-    
-    <!-- Form for adding a new author -->
-    <form id="myForm" action="page2.html" method="get">
-        <label for="author_name">Ім'я автора:</label><br>
-        <input type="text" id="author_name" name="author_name"><br><br>
-
-        <form id="myForm" action="page2.html" method="get">
-            <label for="author_bio">Біографія автора:</label><br>
-            <input id="author_bio" name="author_bio"><br><br>
-            
-            <!-- Field for checking user authentication -->
-            <?php if(isset($_SESSION['user_id'])) { ?>
-                <input type="submit" value="Відправити">
-            <?php } else { ?>
-                <p>Будь ласка, <a href="2.html">увійдіть</a> або <a href="1.html">зареєструйтеся</a>, щоб додати нового автора.</p>
-            <?php } ?>
-        </form>
+    <button>
+        <a href="file:///C:/Users/Admin/Desktop/10.1/0.html" target="Додому">Додому</a>
+    </button>
+    <form id="authorForm">
+        <label for="authorName">Ім'я автора:</label>
+        <input type="text" id="authorName" name="authorName"><br><br>
+        <label for="authorBio">Біографія автора:</label><br>
+        <textarea id="authorBio" name="authorBio" rows="4" cols="50"></textarea><br><br>
+        <button type="submit">Зберегти дані</button>
     </form>
 
-    <!-- Script to submit the form -->
+    <input type="text" id="searchInput" onkeyup="searchAuthors()" placeholder="Пошук за іменем автора..."><br><br>
+
+    <div id="receivedData"></div>
+    
     <script>
-        function submitForm() {
-            document.getElementById("authorForm").submit();
+        // Функція для збереження даних в локальному сховищі
+        function saveData(authorName, authorBio) {
+            // Перевіряємо, чи вже існують дані в локальному сховищі
+            let existingData = JSON.parse(localStorage.getItem('authors')) || [];
+            existingData.push({ authorName, authorBio });
+            localStorage.setItem('authors', JSON.stringify(existingData));
+        }
+
+        // Функція для видалення даних з локального сховища
+        function deleteData(index) {
+            let savedData = JSON.parse(localStorage.getItem('authors'));
+            savedData.splice(index, 1);
+            localStorage.setItem('authors', JSON.stringify(savedData));
+            displayData(); // Оновлюємо виведені дані
+        }
+
+        // Обробник події для форми
+        document.getElementById('authorForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Перешкоджаємо стандартному поведінці форми
+
+            const authorName = document.getElementById('authorName').value;
+            const authorBio = document.getElementById('authorBio').value;
+
+            saveData(authorName, authorBio); // Зберігаємо дані в локальному сховищі
+            displayData(); // Відображаємо збережені дані на сторінці
+        });
+
+        // Функція для відображення збережених даних на сторінці
+        function displayData() {
+            const savedData = JSON.parse(localStorage.getItem('authors'));
+            if (savedData !== null) {
+                document.getElementById('receivedData').innerHTML = "<h3>Введені дані:</h3>";
+                savedData.forEach((data, index) => {
+                    document.getElementById('receivedData').innerHTML += "<p>Ім'я автора: " + data.authorName + "</p><p>Біографія автора: " + data.authorBio + "</p><button onclick='deleteData(" + index + ")'>Видалити</button><br>";
+                });
+            }
+        }
+
+        // Викликаємо функцію для відображення даних при завантаженні сторінки
+        window.onload = displayData;
+
+        // Функція для пошуку авторів за іменем
+        function searchAuthors() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const savedData = JSON.parse(localStorage.getItem('authors'));
+
+            let filteredAuthors = savedData.filter(data => {
+                return data.authorName.toLowerCase().includes(input);
+            });
+
+            document.getElementById('receivedData').innerHTML = "<h3>Результати пошуку:</h3>";
+            filteredAuthors.forEach(author => {
+                document.getElementById('receivedData').innerHTML += "<p>Ім'я автора: " + author.authorName + "</p><p>Біографія автора: " + author.authorBio + "</p>";
+            });
         }
     </script>
 </body>

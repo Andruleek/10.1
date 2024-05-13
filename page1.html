@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сторінка 1</title>
+</head>
+<body>
+
+    <h2>Додати нового автора</h2>
+    
+    <!-- Form for adding a new author -->
+    <form id="myForm" action="page2.html" method="get">
+        <label for="author_name">Ім'я автора:</label><br>
+        <input type="text" id="author_name" name="author_name"><br><br>
+
+        <form id="myForm" action="page2.html" method="get">
+            <label for="author_bio">Біографія автора:</label><br>
+            <input id="author_bio" name="author_bio"><br><br>
+            
+            <!-- Field for checking user authentication -->
+            <?php if(isset($_SESSION['user_id'])) { ?>
+                <input type="submit" value="Відправити">
+            <?php } else { ?>
+                <p>Будь ласка, <a href="2.html">увійдіть</a> або <a href="1.html">зареєструйтеся</a>, щоб додати нового автора.</p>
+            <?php } ?>
+        </form>
+    </form>
+
+    <!-- Script to submit the form -->
+    <script>
+        function submitForm() {
+            document.getElementById("authorForm").submit();
+        }
+    </script>
+</body>
+</html>
